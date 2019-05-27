@@ -1,0 +1,90 @@
+﻿@using GitHubMemberSearch.Models
+@model GitHubUserViewSearchModel
+<br />
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>
+                Enter User Name
+                @Html.TextBoxFor(m => m.UserNameSearch, new { id = "userName" })
+                @Html.ValidationMessageFor(m => m.UserNameSearch, null, new { @class = "field-validation-error", data_valmsg_for = "UserNameSearch" })
+
+                <input type="submit" name="Search" value="Search" />
+            </td>
+        </tr>
+    </table>
+}
+@if (Model.UserViewModel != null)
+{
+    if (Model.UserViewModel[0].id > 0)
+    {
+        foreach (var user in Model.UserViewModel)
+        {
+            <br />
+            <br />
+            <table class="table" id="userDetailsTable">
+                <tr>
+                    <th>Name</th>
+                    <td>@Html.DisplayFor(model => user.name)</td>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <td>@Html.DisplayFor(model => user.location)</td>
+                </tr>
+                <tr>
+                    <th>Avatar</th>
+                    <td><img src="@(user.avatar_url)" height="100px;" /></td>
+                </tr>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Full Name</th>
+                        <th>Description</th>
+                        <th>Stargazers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (user.reposItems.Count.Equals(0))
+                    {
+                        <tr>
+                            <td colspan="4" style="color:red">
+                                The user does not have any repository items
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in user.reposItems)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@(item.html_url)" target="_blank">@Html.DisplayFor(model => item.name)</a>
+                                </td>
+                                <td>@Html.DisplayFor(model => item.full_name)</td>
+                                <td>@Html.DisplayFor(model => item.description)</td>
+                                <td>@Html.DisplayFor(model => item.stargazers_count)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.UserViewModel[0].messaage))
+    {
+        <br />
+        <table class="table" id="userDetailsTable">
+            <tr>
+                <td style="color:red">@Model.UserViewModel[0].messaage</td>
+            </tr>
+        </table>
+
+    }
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
