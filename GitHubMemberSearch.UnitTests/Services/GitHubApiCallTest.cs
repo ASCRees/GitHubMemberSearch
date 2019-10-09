@@ -91,7 +91,6 @@ namespace GitHubMemberSearch.UnitTests.Services
                 //Act
                 //Assert
                 Assert.Throws<HttpResponseException>(() => callGitHubService.CallUserReposAPI(outResult.repos_url).GetAwaiter().GetResult());
-
             }
             else
             {
