@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\HttpResponseException.cs" />
     <Compile Include="Helper\HttpCustomHandler.cs" />
     <Compile Include="Interfaces\ICallGitHubService.cs" />
     <Compile Include="Models\GitHubUserServiceModel.cs" />
