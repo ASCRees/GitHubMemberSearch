@@ -70,7 +70,7 @@ namespace GitHubMemberSearch.UnitTests.Services
 
         [Test(Description = "Check that the call to the git hub api returns a result as a string")]
         [Category("GitHubAPI")]
-        [TestCase("ASCRees")]
+        [TestCase("ASCRees2")]
         public void GitHub_API_CheckAPI_CallReposURLWithNoResults(string userName)
         {
             //Arrange
@@ -81,11 +81,18 @@ namespace GitHubMemberSearch.UnitTests.Services
             apiResponse.Wait();
 
             //Act
-            Task<List<GitHubUserReposServiceModelItem>> apiReposResponse = callGitHubService.CallUserReposAPI(apiResponse.Result.repos_url);
-            apiReposResponse.Wait();
+            if (apiResponse.Result != null)
+            {
+                Task<List<GitHubUserReposServiceModelItem>> apiReposResponse = callGitHubService.CallUserReposAPI(apiResponse.Result.repos_url);
+                apiReposResponse.Wait();
 
-            //Assert
-            Assert.IsTrue(apiReposResponse.Result == null, "Response was empty");
+                //Assert
+                Assert.IsTrue(apiReposResponse.Result == null, "Response was empty");
+            }
+            else
+            {
+                Assert.IsTrue(apiResponse.Result == null, "Response was empty");
+            }
         }
     }
 }
