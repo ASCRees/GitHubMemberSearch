@@ -1,15 +1,39 @@
-﻿using GitHubMemberSearch.Services;
+﻿using GitHubMemberSearch.Service.Exceptions;
+using GitHubMemberSearch.Services;
 using GitHubMemberSearch.Services.Models;
+using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace GitHubMemberSearch.UnitTests.Services
 {
     [TestFixture]
     public class ServiceModels : BaseServiceUnitTest
     {
+        [Test]
+        public void HttpCustomHandler_ReturnSample_ReposUrl()
+        {
+            string _reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
+            Mock<ICallGitHubService> chk = new Mock<ICallGitHubService>();
+            chk.Setup(x => x.CallUserAPI(It.IsAny<string>()))
+                .ReturnsAsync(new GitHubUserServiceModel { repos_url = _reposUrl });
+
+            var outResult = chk.Object.CallUserAPI(_reposUrl).GetAwaiter().GetResult();
+
+            Assert.AreEqual(outResult.repos_url, _reposUrl);
+        }
+
+        [Test]
+        public void HttpCustomHandler_Test_Exception_Thrown()
+        {
+            string _reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
+            Mock<ICallGitHubService> chk = new Mock<ICallGitHubService>();
+            chk.Setup(x => x.CallUserAPI(It.IsAny<string>()))
+                .Throws(new HttpResponseException("Not Found"));
+
+            Assert.Throws<HttpResponseException>(()=> chk.Object.CallUserAPI(_reposUrl).GetAwaiter().GetResult());
+        }
+
         [Test(Description = "Check that the user model holds the values")]
         [Category("ServiceModel")]
         public void ServiceModels_UserModel_CheckItsPopulated()

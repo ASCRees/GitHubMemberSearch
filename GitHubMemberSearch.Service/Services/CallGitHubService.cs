@@ -25,7 +25,7 @@ namespace GitHubMemberSearch.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 

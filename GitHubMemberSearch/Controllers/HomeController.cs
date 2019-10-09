@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GitHubMemberSearch.Models;
+using GitHubMemberSearch.Service.Exceptions;
 using GitHubMemberSearch.Services;
 using GitHubMemberSearch.Services.Models;
 using System;
@@ -37,29 +38,41 @@ namespace GitHubMemberSearch.Controllers
                 string defaultURL = System.Configuration.ConfigurationManager.AppSettings["RootUrl"] + System.Configuration.ConfigurationManager.AppSettings["UsersUrl"];
                 if (!string.IsNullOrEmpty(UserNameSearch))
                 {
-                    GitHubUserServiceModel gitHubUserServiceModel = await _callGitHubService.CallUserAPI(string.Format(defaultURL, UserNameSearch));
-
-                    if (gitHubUserServiceModel != null)
+                    try
                     {
-                        gitHubUserViewModel = Mapper.Map<GitHubUserViewModel>(gitHubUserServiceModel);
-
-                        if (gitHubUserViewModel.id > 0)
+                        GitHubUserServiceModel gitHubUserServiceModel = await _callGitHubService.CallUserAPI(string.Format(defaultURL, UserNameSearch));
+                        if (gitHubUserServiceModel != null)
                         {
-                            List<GitHubUserReposServiceModelItem> gitHubUserReposServiceModelItem = await _callGitHubService.CallUserReposAPI(gitHubUserViewModel.repos_url);
-                            if (gitHubUserReposServiceModelItem != null)
+                            gitHubUserViewModel = Mapper.Map<GitHubUserViewModel>(gitHubUserServiceModel);
+
+                            if (gitHubUserViewModel.id > 0)
                             {
-                                if (gitHubUserReposServiceModelItem.Count > 0)
+                                List<GitHubUserReposServiceModelItem> gitHubUserReposServiceModelItem = await _callGitHubService.CallUserReposAPI(gitHubUserViewModel.repos_url);
+                                if (gitHubUserReposServiceModelItem != null)
                                 {
-                                    gitHubUserViewModel.reposItems = Mapper.Map<List<GitHubUserReposServiceModelItem>, List<GitHubUserReposViewModelItem>>(gitHubUserReposServiceModelItem);
+                                    if (gitHubUserReposServiceModelItem.Count > 0)
+                                    {
+                                        gitHubUserViewModel.reposItems = Mapper.Map<List<GitHubUserReposServiceModelItem>, List<GitHubUserReposViewModelItem>>(gitHubUserReposServiceModelItem);
+                                    }
                                 }
                             }
                         }
+                        else
+                        {
+                            string noRecordsFound = $"No records found for user \"{UserNameSearch}\"";
+                            log.Warn(noRecordsFound);
+                            gitHubUserViewModel.messaage = noRecordsFound;
+                        }
                     }
-                    else
+                    catch (HttpResponseException ex)
                     {
                         string noRecordsFound = $"No records found for user \"{UserNameSearch}\"";
                         log.Warn(noRecordsFound);
                         gitHubUserViewModel.messaage = noRecordsFound;
+                    }
+                    catch(Exception ex)
+                    {
+                        throw ex;
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(UserNameSearch))
@@ -77,4 +90,5 @@ namespace GitHubMemberSearch.Controllers
             }
         }
     }
+
 }

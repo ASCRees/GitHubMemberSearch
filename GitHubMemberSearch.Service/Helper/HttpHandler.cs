@@ -1,4 +1,5 @@
-﻿using GitHubMemberSearch.Service.Helper;
+﻿using GitHubMemberSearch.Service.Exceptions;
+using GitHubMemberSearch.Service.Helper;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -34,9 +35,10 @@ namespace GitHubMemberSearch.Service.Helper
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    throw new HttpResponseException(response.ReasonPhrase);
                 }
             }
         }
     }
+
 }
