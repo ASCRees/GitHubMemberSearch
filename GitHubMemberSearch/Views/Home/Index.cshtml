@@ -1,9 +1,9 @@
 ﻿@using GitHubMemberSearch.Models
 @model GitHubUserViewSearchModel
 <br />
-
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+@using (Html.BeginForm("Search", "Home", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
     <table>
         <tr>
             <td>
@@ -74,12 +74,12 @@
             </table>
         }
     }
-    else if (!string.IsNullOrWhiteSpace(Model.UserViewModel[0].messaage))
+    else if (!string.IsNullOrWhiteSpace(Model.UserViewModel[0].message))
     {
         <br />
         <table class="table" id="userDetailsTable">
             <tr>
-                <td style="color:red">@Model.UserViewModel[0].messaage</td>
+                <td style="color:red">@Model.UserViewModel[0].message</td>
             </tr>
         </table>
 

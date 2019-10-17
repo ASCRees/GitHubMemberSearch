@@ -29,7 +29,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             //Arrange
             var controller = new HomeController(new CallGitHubService());
             //Act
-            var result = controller.Index(userName) as Task<ActionResult>;
+            var result = controller.Search(userName) as Task<ActionResult>;
             result.Wait();
             //Assert
             Assert.NotNull(result);
@@ -43,7 +43,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             //Arrange
             var controller = new HomeController(new CallGitHubService());
             //Act
-            Task<ActionResult> result = controller.Index(userName) as Task<ActionResult>;
+            Task<ActionResult> result = controller.Search(userName) as Task<ActionResult>;
             result.Wait();
             ViewResult viewResult = result.Result as ViewResult;
             GitHubUserViewSearchModel model = viewResult.Model as GitHubUserViewSearchModel;
@@ -59,7 +59,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             //Arrange
             var controller = new HomeController(new CallGitHubService());
             //Act
-            Task<ActionResult> result = controller.Index(userName) as Task<ActionResult>;
+            Task<ActionResult> result = controller.Search(userName) as Task<ActionResult>;
             result.Wait();
             ViewResult viewResult = result.Result as ViewResult;
             GitHubUserViewSearchModel model = viewResult.Model as GitHubUserViewSearchModel;
@@ -75,7 +75,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             //Arrange
             var controller = new HomeController(new CallGitHubService());
             //Act
-            Task<ActionResult> result = controller.Index(userName) as Task<ActionResult>;
+            Task<ActionResult> result = controller.Search(userName) as Task<ActionResult>;
             result.Wait();
             ViewResult viewResult = result.Result as ViewResult;
             GitHubUserViewSearchModel model = viewResult.Model as GitHubUserViewSearchModel;
