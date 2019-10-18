@@ -48,7 +48,7 @@ namespace GitHubMemberSearch.Controllers
             }
         }
 
-        private async Task<GitHubUserViewModel> BuildSearchViewModel(string UserNameSearch)
+        public virtual async Task<GitHubUserViewModel> BuildSearchViewModel(string UserNameSearch)
         {
             GitHubUserViewModel gitHubUserViewModel = new GitHubUserViewModel();   
             log.Info($"Request for details of \"{UserNameSearch}\"");

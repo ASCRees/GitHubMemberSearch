@@ -15,6 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace GitHubMemberSearch.DependencyResolution
 {
     using Microsoft.Practices.ServiceLocation;
@@ -27,6 +29,7 @@ namespace GitHubMemberSearch.DependencyResolution
     /// <summary>
     /// The structure map dependency scope.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class StructureMapDependencyScope : ServiceLocatorImplBase
     {
         #region Constants and Fields

@@ -15,6 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace GitHubMemberSearch.DependencyResolution
 {
     using StructureMap.Configuration.DSL;
@@ -24,6 +26,7 @@ namespace GitHubMemberSearch.DependencyResolution
     using System;
     using System.Web.Mvc;
 
+    [ExcludeFromCodeCoverage]
     public class ControllerConvention : IRegistrationConvention
     {
         #region Public Methods and Operators

@@ -1,7 +1,10 @@
 ﻿using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.UnitTests
-{
+{ 
+    [ExcludeFromCodeCoverage]
+
     public class BaseServiceUnitTest
     {
         private static string _baseURL;

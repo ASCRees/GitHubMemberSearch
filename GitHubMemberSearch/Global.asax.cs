@@ -1,12 +1,14 @@
 ﻿using GitHubMemberSearch.App_Start;
 using log4net;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace GitHubMemberSearch
 {
+    [ExcludeFromCodeCoverage]
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()

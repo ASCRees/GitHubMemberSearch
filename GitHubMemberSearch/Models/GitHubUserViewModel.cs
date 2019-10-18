@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.Models
 {
+    [ExcludeFromCodeCoverage]
     public class GitHubUserViewModel
     {
         public int id { get; set; }

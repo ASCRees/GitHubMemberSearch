@@ -4,9 +4,12 @@ using GitHubMemberSearch.Services.Models;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
+
     [TestFixture]
     public class ServiceModels : BaseServiceUnitTest
     {
