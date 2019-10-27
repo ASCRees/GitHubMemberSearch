@@ -13,26 +13,29 @@ namespace GitHubMemberSearch.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICallGitHubService _callGitHubService;
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+        internal readonly ICallGitHubService _callGitHubService;
+        internal static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+        private readonly IHomeModelBuilder _homeModelBuilder;
 
-        public HomeController(ICallGitHubService callGitHubService)
+        public HomeController(ICallGitHubService callGitHubService, IHomeModelBuilder homeModelBuilder)
         {
             _callGitHubService = callGitHubService;
+            _homeModelBuilder = homeModelBuilder;
+            _homeModelBuilder.HomeControllerObj = this;
         }
 
         public ActionResult Index(string UserNameSearch)
         {
-            return View(GetUserViewSearchModel(UserNameSearch));
+            return View(HomeModelBuilder.GetUserViewSearchModel(UserNameSearch));
         }
 
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Search(string UserNameSearch)
         {
-            GitHubUserViewSearchModel gitHubUserViewSearchModel = GetUserViewSearchModel(UserNameSearch);
+            GitHubUserViewSearchModel gitHubUserViewSearchModel = HomeModelBuilder.GetUserViewSearchModel(UserNameSearch);
             try
             {
-                var gitHubUserViewModel = BuildSearchViewModel(UserNameSearch).GetAwaiter().GetResult();
+                var gitHubUserViewModel = _homeModelBuilder.BuildSearchViewModel(UserNameSearch).GetAwaiter().GetResult();
                 if (!string.IsNullOrWhiteSpace(UserNameSearch))
                 {
                     gitHubUserViewSearchModel.UserViewModel = new List<GitHubUserViewModel>();
@@ -46,74 +49,6 @@ namespace GitHubMemberSearch.Controllers
                 log.Error(ex);
                 return Redirect("~/ErrorHandler");
             }
-        }
-
-        public virtual async Task<GitHubUserViewModel> BuildSearchViewModel(string UserNameSearch)
-        {
-            GitHubUserViewModel gitHubUserViewModel = new GitHubUserViewModel();   
-            log.Info($"Request for details of \"{UserNameSearch}\"");
-            string defaultURL = System.Configuration.ConfigurationManager.AppSettings["RootUrl"] +
-                                System.Configuration.ConfigurationManager.AppSettings["UsersUrl"];
-            if (!string.IsNullOrEmpty(UserNameSearch))
-            {
-                try
-                {
-                    GitHubUserServiceModel gitHubUserServiceModel =
-                        await _callGitHubService.CallUserAPI(string.Format(defaultURL, UserNameSearch));
-                    if (gitHubUserServiceModel != null)
-                    {
-                        gitHubUserViewModel = Mapper.Map<GitHubUserViewModel>(gitHubUserServiceModel);
-
-                        if (gitHubUserViewModel.id > 0)
-                        {
-                            List<GitHubUserReposServiceModelItem> gitHubUserReposServiceModelItem =
-                                await _callGitHubService.CallUserReposAPI(gitHubUserViewModel.repos_url);
-                            if (gitHubUserReposServiceModelItem != null)
-                            {
-                                if (gitHubUserReposServiceModelItem.Count > 0)
-                                {
-                                    gitHubUserViewModel.reposItems =
-                                        Mapper.Map<List<GitHubUserReposServiceModelItem>, List<GitHubUserReposViewModelItem>>(
-                                            gitHubUserReposServiceModelItem);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        string noRecordsFound = $"No records found for user \"{UserNameSearch}\"";
-                        log.Warn(noRecordsFound);
-                        gitHubUserViewModel.message = noRecordsFound;
-                    }
-                }
-                catch (HttpResponseException ex)
-                {
-                    string noRecordsFound = $"No records found for user \"{UserNameSearch}\"";
-                    log.Warn(noRecordsFound);
-                    gitHubUserViewModel.message = noRecordsFound;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-            }
-            return gitHubUserViewModel;
-        }
-
-        private static GitHubUserViewSearchModel GetUserViewSearchModel(string UserNameSearch)
-        {
-            GitHubUserViewSearchModel gitHubUserViewSearchModel = new GitHubUserViewSearchModel();
-            if (string.IsNullOrWhiteSpace(UserNameSearch))
-            {
-                gitHubUserViewSearchModel.UserNameSearch = string.Empty;
-            }
-            else
-            {
-                gitHubUserViewSearchModel.UserNameSearch = UserNameSearch;
-            }
-
-            return gitHubUserViewSearchModel;
         }
     }
 

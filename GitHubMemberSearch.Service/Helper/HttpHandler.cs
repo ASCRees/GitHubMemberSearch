@@ -23,7 +23,7 @@ namespace GitHubMemberSearch.Service.Helper
         {
             string returnval = string.Empty;
 
-            using (HttpResponseMessage response = await HttpHandler.ApiClient.GetAsync(userURL))
+            using (HttpResponseMessage response = HttpHandler.ApiClient.GetAsync(userURL).GetAwaiter().GetResult())
             {
                 if (response.IsSuccessStatusCode)
                 {

@@ -160,6 +160,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="ModelBuilder\HomeModelBuilder.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelBuilder\IHomeModelBuilder.cs" />
     <Compile Include="Models\GitHubUserViewModel.cs" />
     <Compile Include="Models\GitHubUserReposViewModelItem.cs" />
     <Compile Include="Models\GitHubUserViewSearchModel.cs" />
