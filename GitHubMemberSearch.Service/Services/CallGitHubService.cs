@@ -21,7 +21,7 @@ namespace GitHubMemberSearch.Services
                 {
                     HttpHandler.InitializeClient();
                 }
-                return await HttpHandler.HTTPCallClient<GitHubUserServiceModel>(userURL);
+                return HttpHandler.HTTPCallClient<GitHubUserServiceModel>(userURL).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
@@ -35,7 +35,7 @@ namespace GitHubMemberSearch.Services
             {
                 HttpHandler.InitializeClient();
             }
-            List<GitHubUserReposServiceModelItem> reposItems = await HttpHandler.HTTPCallClient<List<GitHubUserReposServiceModelItem>>(userURL);
+            List<GitHubUserReposServiceModelItem> reposItems = HttpHandler.HTTPCallClient<List<GitHubUserReposServiceModelItem>>(userURL).GetAwaiter().GetResult();
             if (reposItems.Count > 0)
             {
                 return reposItems.OrderByDescending(c => c.stargazers_count).Take(5).ToList<GitHubUserReposServiceModelItem>();

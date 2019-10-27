@@ -15,6 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
 using GitHubMemberSearch.App_Start;
 
 using WebActivatorEx;
@@ -29,6 +30,7 @@ namespace GitHubMemberSearch.App_Start
     using StructureMap;
     using System.Web.Mvc;
 
+    [ExcludeFromCodeCoverage]
     public static class StructuremapMvc
     {
         #region Public Properties

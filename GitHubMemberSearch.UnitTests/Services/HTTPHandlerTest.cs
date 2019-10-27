@@ -4,10 +4,13 @@ using GitHubMemberSearch.Services.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace GitHubMemberSearch.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
+
     [TestFixture]
     public class HTTPHandlerTest : BaseServiceUnitTest
     {

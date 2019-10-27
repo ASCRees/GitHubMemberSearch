@@ -15,12 +15,16 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace GitHubMemberSearch.DependencyResolution
 {
+    using GitHubMemberSearch.Controllers;
     using GitHubMemberSearch.Services;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 
+    [ExcludeFromCodeCoverage]
     public class DefaultRegistry : Registry
     {
         #region Constructors and Destructors
@@ -35,6 +39,7 @@ namespace GitHubMemberSearch.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
             For<ICallGitHubService>().Use<CallGitHubService>();
+            For<IHomeModelBuilder>().Use<HomeModelBuilder>();
         }
 
         #endregion Constructors and Destructors

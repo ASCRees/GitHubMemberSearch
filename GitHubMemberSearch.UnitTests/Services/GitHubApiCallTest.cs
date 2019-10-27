@@ -5,10 +5,14 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using GitHubMemberSearch.Service.Helper;
 
 namespace GitHubMemberSearch.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
+
     [TestFixture]
     public class GitHubApiCallTest : BaseServiceUnitTest
     {
@@ -96,6 +100,22 @@ namespace GitHubMemberSearch.UnitTests.Services
             {
                 Assert.IsTrue(outResult is null, "Response was empty");
             }
+        }
+
+        [Test(Description = "Check that the call to the git hub api returns null for a valid repos")]
+        [Category("GitHubAPI")]
+        [TestCase("speacock1970")]
+        public void GitHub_API_CheckAPI_CallUserReposAPIURLWithNoRepositories(string userName)
+        {
+            //Arrange
+            HttpHandler.ApiClient = null;
+            ICallGitHubService callGitHubService = new CallGitHubService();
+            string _userURL = string.Format(UsersUrl, userName)+"/repos";
+
+            //Act
+            //Assert
+            Assert.IsNull(callGitHubService.CallUserReposAPI(_userURL).GetAwaiter().GetResult());
+ 
         }
     }
 }

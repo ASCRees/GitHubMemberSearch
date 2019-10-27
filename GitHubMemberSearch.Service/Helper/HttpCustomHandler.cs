@@ -8,7 +8,7 @@ namespace GitHubMemberSearch.Service.Helper
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
+            HttpResponseMessage response = base.SendAsync(request, cancellationToken).GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
                 return response;
 
