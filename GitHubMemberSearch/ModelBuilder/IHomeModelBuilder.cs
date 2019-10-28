@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using GitHubMemberSearch.Models;
+﻿using GitHubMemberSearch.Models;
+using System.Threading.Tasks;
 
 namespace GitHubMemberSearch.Controllers
 {

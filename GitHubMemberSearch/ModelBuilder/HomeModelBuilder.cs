@@ -2,7 +2,6 @@
 using GitHubMemberSearch.Models;
 using GitHubMemberSearch.Service.Exceptions;
 using GitHubMemberSearch.Services.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

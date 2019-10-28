@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.UnitTests
-{ 
+{
     [ExcludeFromCodeCoverage]
 
     public class BaseServiceUnitTest
