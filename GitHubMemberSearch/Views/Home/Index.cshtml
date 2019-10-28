@@ -1,9 +1,9 @@
 ﻿@using GitHubMemberSearch.Models
 @model GitHubUserViewSearchModel
 <br />
-
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+@using (Html.BeginForm("Search", "Home", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
     <table>
         <tr>
             <td>
@@ -18,7 +18,7 @@
 }
 @if (Model.UserViewModel != null)
 {
-    if (Model.UserViewModel[0].id > 0)
+    if (Model.UserViewModel[0].Id > 0)
     {
         foreach (var user in Model.UserViewModel)
         {
@@ -27,15 +27,15 @@
             <table class="table" id="userDetailsTable">
                 <tr>
                     <th>Name</th>
-                    <td>@Html.DisplayFor(model => user.name)</td>
+                    <td>@Html.DisplayFor(model => user.Name)</td>
                 </tr>
                 <tr>
                     <th>Location</th>
-                    <td>@Html.DisplayFor(model => user.location)</td>
+                    <td>@Html.DisplayFor(model => user.Location)</td>
                 </tr>
                 <tr>
                     <th>Avatar</th>
-                    <td><img src="@(user.avatar_url)" height="100px;" /></td>
+                    <td><img src="@(user.AvatarUrl)" height="100px;" /></td>
                 </tr>
             </table>
             <table class="table table-striped">
@@ -48,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (user.reposItems.Count.Equals(0))
+                    @if (user.ReposItems.Count.Equals(0))
                     {
                         <tr>
                             <td colspan="4" style="color:red">
@@ -58,15 +58,15 @@
                     }
                     else
                     {
-                        foreach (var item in user.reposItems)
+                        foreach (var item in user.ReposItems)
                         {
                             <tr>
                                 <td>
-                                    <a href="@(item.html_url)" target="_blank">@Html.DisplayFor(model => item.name)</a>
+                                    <a href="@(item.HtmlUrl)" target="_blank">@Html.DisplayFor(model => item.Name)</a>
                                 </td>
-                                <td>@Html.DisplayFor(model => item.full_name)</td>
-                                <td>@Html.DisplayFor(model => item.description)</td>
-                                <td>@Html.DisplayFor(model => item.stargazers_count)</td>
+                                <td>@Html.DisplayFor(model => item.FullName)</td>
+                                <td>@Html.DisplayFor(model => item.Description)</td>
+                                <td>@Html.DisplayFor(model => item.StargazersCount)</td>
                             </tr>
                         }
                     }
@@ -74,12 +74,12 @@
             </table>
         }
     }
-    else if (!string.IsNullOrWhiteSpace(Model.UserViewModel[0].messaage))
+    else if (!string.IsNullOrWhiteSpace(Model.UserViewModel[0].Message))
     {
         <br />
         <table class="table" id="userDetailsTable">
             <tr>
-                <td style="color:red">@Model.UserViewModel[0].messaage</td>
+                <td style="color:red">@Model.UserViewModel[0].Message</td>
             </tr>
         </table>
 

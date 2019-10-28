@@ -6,8 +6,8 @@ namespace GitHubMemberSearch.Services
 {
     public interface ICallGitHubService
     {
-        Task<GitHubUserServiceModel> CallUserAPI(string userURL);
+        Task<GitHubUserServiceModel> CallUserApi(string userUrl);
 
-        Task<List<GitHubUserReposServiceModelItem>> CallUserReposAPI(string userURL);
+        Task<List<GitHubUserReposServiceModelItem>> CallUserReposApi(string userUrl);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.Models
 {
+    [ExcludeFromCodeCoverage]
     public class GitHubUserViewModel
     {
         public int id { get; set; }
@@ -12,7 +14,7 @@ namespace GitHubMemberSearch.Models
         public string name { get; set; }
         public string location { get; set; }
         public string repos_url { get; set; }
-        public string messaage { get; set; }
+        public string message { get; set; }
 
         public List<GitHubUserReposViewModelItem> reposItems = new List<GitHubUserReposViewModelItem>();
     }

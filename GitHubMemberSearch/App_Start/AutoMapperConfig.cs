@@ -4,7 +4,7 @@ using GitHubMemberSearch.Services.Models;
 
 namespace GitHubMemberSearch.App_Start
 {
-    public class AutoMapperConfig : AutoMapper.Profile
+    public class AutoMapperConfig : Profile
     {
         /// <summary>
         /// Creates the mappings.

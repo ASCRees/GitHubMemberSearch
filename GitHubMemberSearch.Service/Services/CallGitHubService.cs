@@ -1,6 +1,5 @@
 ﻿using GitHubMemberSearch.Service.Helper;
 using GitHubMemberSearch.Services.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,11 +8,7 @@ namespace GitHubMemberSearch.Services
 {
     public class CallGitHubService : ICallGitHubService
     {
-        public CallGitHubService()
-        {
-        }
-
-        public async Task<GitHubUserServiceModel> CallUserAPI(string userURL)
+        public async Task<GitHubUserServiceModel> CallUserApi(string userUrl)
         {
             try
             {
@@ -21,24 +16,24 @@ namespace GitHubMemberSearch.Services
                 {
                     HttpHandler.InitializeClient();
                 }
-                return await HttpHandler.HTTPCallClient<GitHubUserServiceModel>(userURL);
+                return HttpHandler.HttpCallClient<GitHubUserServiceModel>(userUrl).GetAwaiter().GetResult();
             }
-            catch (Exception ex)
+            catch 
             {
-                return null;
+                throw;
             }
         }
 
-        public async Task<List<GitHubUserReposServiceModelItem>> CallUserReposAPI(string userURL)
+        public async Task<List<GitHubUserReposServiceModelItem>> CallUserReposApi(string userUrl)
         {
             if (HttpHandler.ApiClient == null)
             {
                 HttpHandler.InitializeClient();
             }
-            List<GitHubUserReposServiceModelItem> reposItems = await HttpHandler.HTTPCallClient<List<GitHubUserReposServiceModelItem>>(userURL);
+            List<GitHubUserReposServiceModelItem> reposItems = HttpHandler.HttpCallClient<List<GitHubUserReposServiceModelItem>>(userUrl).GetAwaiter().GetResult();
             if (reposItems.Count > 0)
             {
-                return reposItems.OrderByDescending(c => c.stargazers_count).Take(5).ToList<GitHubUserReposServiceModelItem>();
+                return reposItems.OrderByDescending(c => c.stargazers_count).Take(5).ToList();
             }
             else
             {

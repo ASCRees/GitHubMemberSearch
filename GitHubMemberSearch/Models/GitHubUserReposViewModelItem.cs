@@ -1,5 +1,8 @@
-﻿namespace GitHubMemberSearch.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GitHubMemberSearch.Models
 {
+    [ExcludeFromCodeCoverage]
     public class GitHubUserReposViewModelItem
     {
         public string name { get; set; }

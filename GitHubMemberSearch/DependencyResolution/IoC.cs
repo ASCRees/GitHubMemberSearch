@@ -15,10 +15,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace GitHubMemberSearch.DependencyResolution
 {
     using StructureMap;
 
+    [ExcludeFromCodeCoverage]
     public static class IoC
     {
         public static IContainer Initialize()
