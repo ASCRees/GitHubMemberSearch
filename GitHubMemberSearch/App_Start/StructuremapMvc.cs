@@ -15,9 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Diagnostics.CodeAnalysis;
 using GitHubMemberSearch.App_Start;
-
+using System.Diagnostics.CodeAnalysis;
 using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof(StructuremapMvc), "Start")]

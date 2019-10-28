@@ -40,7 +40,7 @@ namespace GitHubMemberSearch.Controllers
                     };
                 }
 
-                return View("Index",gitHubUserViewSearchModel);
+                return View("Index", gitHubUserViewSearchModel);
             }
             catch (Exception ex)
             {

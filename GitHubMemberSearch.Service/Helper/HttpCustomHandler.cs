@@ -10,7 +10,9 @@ namespace GitHubMemberSearch.Service.Helper
         {
             HttpResponseMessage response = base.SendAsync(request, cancellationToken).GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
+            {
                 return response;
+            }
 
             var errorResponse = request.CreateResponse(response.StatusCode);
             return errorResponse;

@@ -1,12 +1,12 @@
-﻿using GitHubMemberSearch.App_Start;
+﻿using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using GitHubMemberSearch.App_Start;
 using GitHubMemberSearch.Controllers;
 using GitHubMemberSearch.Models;
 using GitHubMemberSearch.Services;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace GitHubMemberSearch.UnitTests.Controllers
 {
@@ -14,7 +14,6 @@ namespace GitHubMemberSearch.UnitTests.Controllers
     public class HomeControllerTest : BaseServiceUnitTest
     {
         private MockRepository _mockRepository;
-
         private Mock<ICallGitHubService> _mockCallGitHubService;
         private Mock<IHomeModelBuilder> _mockHomeModelBuilder;
 
@@ -34,24 +33,19 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             this._mockRepository.VerifyAll();
         }
 
-        private HomeController CreateHomeController()
-        {
-            return new HomeController(
-                this._mockCallGitHubService.Object,
-                this._mockHomeModelBuilder.Object);
-        }
-
         [Test(Description = "Verify that the result return contains a value for a valid user name")]
         [Category("HomeControllerTest")]
         [TestCase("robconery")]
         public void Controller_CheckController_ValidateResultIsReturned(string userName)
         {
-            //Arrange
+            // Arrange
             var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
-            //Act
+
+            // Act
             var result = controller.Search(userName);
             result.Wait();
-            //Assert
+
+            // Assert
             Assert.NotNull(result);
         }
 
@@ -60,14 +54,16 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         [TestCase("robconery")]
         public void Controller_CheckController_ValidUserName(string userName)
         {
-            //Arrange
+            // Arrange
             var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
-            //Act
+
+            // Act
             Task<ActionResult> result = controller.Search(userName);
             result.Wait();
             ViewResult viewResult = result.Result as ViewResult;
             GitHubUserViewSearchModel model = viewResult.Model as GitHubUserViewSearchModel;
-            //Assert
+
+            // Assert
             Assert.IsTrue(model.UserViewModel[0].id > 0);
         }
 
@@ -76,14 +72,16 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         [TestCase("NothingIsFound")]
         public void Controller_CheckController_InValidUserName(string userName)
         {
-            //Arrange
+            // Arrange
             var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
-            //Act
+
+            // Act
             var result = controller.Search(userName);
             result.Wait();
             ViewResult viewResult = result.Result as ViewResult;
             GitHubUserViewSearchModel model = viewResult.Model as GitHubUserViewSearchModel;
-            //Assert
+
+            // Assert
             Assert.IsTrue(model.UserViewModel[0].id.Equals(0));
         }
 
@@ -92,14 +90,16 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         [TestCase("robconery")]
         public void Controller_CheckController_ReposItems(string userName)
         {
-            //Arrange
+            // Arrange
             var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
-            //Act
+
+            // Act
             var result = controller.Search(userName);
             result.Wait();
             ViewResult viewResult = result.Result as ViewResult;
             GitHubUserViewSearchModel model = viewResult.Model as GitHubUserViewSearchModel;
-            //Assert
+
+            // Assert
             Assert.IsTrue(model.UserViewModel[0].reposItems.Count > 0);
         }
 
@@ -108,7 +108,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         {
             // Arrange
             var homeController = this.CreateHomeController();
- 
+
             // Act
             var result = homeController.Index(string.Empty);
 
@@ -126,7 +126,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             var result = await homeController.Search(string.Empty);
 
             // Assert
-            Assert.IsTrue(result!=null);
+            Assert.IsTrue(result != null);
         }
 
         [Test(Description = "Verify that the model builder returns no records return")]
@@ -134,18 +134,18 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         [TestCase("ASCREES222")]
         public void ModelBuilder_CheckController_CheckSearchRedirectsToError(string userName)
         {
-            //Arrange
+            // Arrange
             this._mockHomeModelBuilder.Setup(x => x.BuildSearchViewModel(It.IsAny<string>()))
                 .Throws(new ArgumentException("Mock Exception"));
 
             var controller = this.CreateHomeController();
- 
-            //Act
+
+            // Act
             var result = controller.Search(userName);
             result.Wait();
             var viewResult = result.Result;
 
-            //Assert
+            // Assert
             Assert.IsTrue(viewResult.GetType().Equals(typeof(RedirectResult)));
         }
 
@@ -154,18 +154,24 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         [TestCase("ASCREES222")]
         public void ModelBuilder_CheckBuilder_ReturnsNoRecordFound(string userName)
         {
-            //Arrange
-
+            // Arrange
             var builder = new HomeModelBuilder
             {
-                HomeControllerObj = CreateHomeController()
+                HomeControllerObj = this.CreateHomeController(),
             };
 
-            //Act
+            // Act
             var builderResult = builder.BuildSearchViewModel(userName).GetAwaiter().GetResult();
 
-            //Assert
-            Assert.IsTrue(builderResult.message.Contains(("No records found")));
+            // Assert
+            Assert.IsTrue(builderResult.message.Contains("No records found"));
+        }
+
+        private HomeController CreateHomeController()
+        {
+            return new HomeController(
+                this._mockCallGitHubService.Object,
+                this._mockHomeModelBuilder.Object);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace GitHubMemberSearch.Services
                 }
                 return HttpHandler.HttpCallClient<GitHubUserServiceModel>(userUrl).GetAwaiter().GetResult();
             }
-            catch 
+            catch
             {
                 throw;
             }
@@ -30,7 +30,9 @@ namespace GitHubMemberSearch.Services
             {
                 HttpHandler.InitializeClient();
             }
+
             List<GitHubUserReposServiceModelItem> reposItems = HttpHandler.HttpCallClient<List<GitHubUserReposServiceModelItem>>(userUrl).GetAwaiter().GetResult();
+
             if (reposItems.Count > 0)
             {
                 return reposItems.OrderByDescending(c => c.stargazers_count).Take(5).ToList();

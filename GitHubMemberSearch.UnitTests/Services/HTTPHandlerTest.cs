@@ -16,12 +16,12 @@ namespace GitHubMemberSearch.UnitTests.Services
         [Category("HttpHandler")]
         public void HttpHandler_CheckHandler_VerifyUserAgent()
         {
-            //Arrange
+            // Arrange
 
-            //Act
+            // Act
             HttpHandler.InitializeClient();
 
-            //Assert
+            // Assert
             Assert.IsTrue(HttpHandler.ApiClient.DefaultRequestHeaders.Contains("User-Agent"), "User Agent Is Missing");
         }
 
@@ -31,18 +31,18 @@ namespace GitHubMemberSearch.UnitTests.Services
         {
             try
             {
-                //Arrange
+                // Arrange
                 string urlToTest = "https://api.github.com/users/NowtTofind";
                 HttpHandler.InitializeClient();
 
-                //Act
+                // Act
 
                 Task<GitHubUserServiceModel> apiResponse = HttpHandler.HttpCallClient<GitHubUserServiceModel>(urlToTest);
                 apiResponse.Wait();
             }
             catch (Exception ex)
             {
-                //Assert
+                // Assert
                 Assert.AreEqual(ex.InnerException.Message, "Not Found");
             }
         }
@@ -51,15 +51,15 @@ namespace GitHubMemberSearch.UnitTests.Services
         [Category("HttpHandler")]
         public void HttpHandler_CheckHandler_VerifyValidURLReturnsUser()
         {
-            //Arrange
+            // Arrange
             string urlToTest = "https://api.github.com/users/ASCRees";
             HttpHandler.InitializeClient();
 
-            //Act
+            // Act
             Task<GitHubUserServiceModel> apiResponse = HttpHandler.HttpCallClient<GitHubUserServiceModel>(urlToTest);
             apiResponse.Wait();
-            
-            //Assert
+
+            // Assert
             Assert.IsTrue(apiResponse.Result.Id > 0, "Response was empty");
         }
     }
