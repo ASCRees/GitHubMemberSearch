@@ -7,18 +7,18 @@ namespace GitHubMemberSearch.UnitTests
 
     public class BaseServiceUnitTest
     {
-        private static string _baseURL;
-        private static string _usersURL;
-        private static string _starredURL;
+        private static string _baseUrl;
+        private static string _usersUrl;
+        private static string _starredUrl;
 
         public static string BaseUrl
         {
             get
             {
-                if (_baseURL == null)
-                    _baseURL = ConfigurationManager.AppSettings["RootUrl"] + ConfigurationManager.AppSettings["BaseUrl"];
+                if (_baseUrl == null)
+                    _baseUrl = ConfigurationManager.AppSettings["RootUrl"] + ConfigurationManager.AppSettings["BaseUrl"];
 
-                return _baseURL;
+                return _baseUrl;
             }
         }
 
@@ -26,10 +26,10 @@ namespace GitHubMemberSearch.UnitTests
         {
             get
             {
-                if (_usersURL == null)
-                    _usersURL = BaseUrl + ConfigurationManager.AppSettings["UsersUrl"];
+                if (_usersUrl == null)
+                    _usersUrl = BaseUrl + ConfigurationManager.AppSettings["UsersUrl"];
 
-                return _usersURL;
+                return _usersUrl;
             }
         }
     }

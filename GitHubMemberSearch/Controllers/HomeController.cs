@@ -1,52 +1,50 @@
-﻿using AutoMapper;
-using GitHubMemberSearch.Models;
-using GitHubMemberSearch.Service.Exceptions;
+﻿using GitHubMemberSearch.Models;
 using GitHubMemberSearch.Services;
-using GitHubMemberSearch.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.WebPages;
 
 namespace GitHubMemberSearch.Controllers
 {
     public class HomeController : Controller
     {
-        internal readonly ICallGitHubService _callGitHubService;
-        internal static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+        internal readonly ICallGitHubService CallGitHubService;
+        internal static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(HomeController));
         private readonly IHomeModelBuilder _homeModelBuilder;
 
         public HomeController(ICallGitHubService callGitHubService, IHomeModelBuilder homeModelBuilder)
         {
-            _callGitHubService = callGitHubService;
+            CallGitHubService = callGitHubService;
             _homeModelBuilder = homeModelBuilder;
             _homeModelBuilder.HomeControllerObj = this;
         }
 
-        public ActionResult Index(string UserNameSearch)
+        public ActionResult Index(string userNameSearch)
         {
-            return View(HomeModelBuilder.GetUserViewSearchModel(UserNameSearch));
+            return View(HomeModelBuilder.GetUserViewSearchModel(userNameSearch));
         }
 
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Search(string UserNameSearch)
+        public async Task<ActionResult> Search(string userNameSearch)
         {
-            GitHubUserViewSearchModel gitHubUserViewSearchModel = HomeModelBuilder.GetUserViewSearchModel(UserNameSearch);
+            GitHubUserViewSearchModel gitHubUserViewSearchModel = HomeModelBuilder.GetUserViewSearchModel(userNameSearch);
             try
             {
-                var gitHubUserViewModel = _homeModelBuilder.BuildSearchViewModel(UserNameSearch).GetAwaiter().GetResult();
-                if (!string.IsNullOrWhiteSpace(UserNameSearch))
+                var gitHubUserViewModel = _homeModelBuilder.BuildSearchViewModel(userNameSearch).GetAwaiter().GetResult();
+                if (!string.IsNullOrWhiteSpace(userNameSearch))
                 {
-                    gitHubUserViewSearchModel.UserViewModel = new List<GitHubUserViewModel>();
-                    gitHubUserViewSearchModel.UserViewModel.Add(gitHubUserViewModel);
+                    gitHubUserViewSearchModel.UserViewModel = new List<GitHubUserViewModel>
+                    {
+                        gitHubUserViewModel
+                    };
                 }
 
                 return View("Index",gitHubUserViewSearchModel);
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                Log.Error(ex);
                 return Redirect("~/ErrorHandler");
             }
         }

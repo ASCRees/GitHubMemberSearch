@@ -6,6 +6,6 @@ namespace GitHubMemberSearch.Controllers
     public interface IHomeModelBuilder
     {
         HomeController HomeControllerObj { get; set; }
-        Task<GitHubUserViewModel> BuildSearchViewModel(string UserNameSearch);
+        Task<GitHubUserViewModel> BuildSearchViewModel(string userNameSearch);
     }
 }

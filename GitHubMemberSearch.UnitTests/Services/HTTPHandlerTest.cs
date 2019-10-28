@@ -1,9 +1,7 @@
 ﻿using GitHubMemberSearch.Service.Helper;
-using GitHubMemberSearch.Services;
 using GitHubMemberSearch.Services.Models;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -12,7 +10,7 @@ namespace GitHubMemberSearch.UnitTests.Services
     [ExcludeFromCodeCoverage]
 
     [TestFixture]
-    public class HTTPHandlerTest : BaseServiceUnitTest
+    public class HttpHandlerTest : BaseServiceUnitTest
     {
         [Test(Description = "Check that the httphandler initializes")]
         [Category("HttpHandler")]
@@ -39,7 +37,7 @@ namespace GitHubMemberSearch.UnitTests.Services
 
                 //Act
 
-                Task<GitHubUserServiceModel> apiResponse = HttpHandler.HTTPCallClient<GitHubUserServiceModel>(urlToTest);
+                Task<GitHubUserServiceModel> apiResponse = HttpHandler.HttpCallClient<GitHubUserServiceModel>(urlToTest);
                 apiResponse.Wait();
             }
             catch (Exception ex)
@@ -53,23 +51,16 @@ namespace GitHubMemberSearch.UnitTests.Services
         [Category("HttpHandler")]
         public void HttpHandler_CheckHandler_VerifyValidURLReturnsUser()
         {
-            try
-            {
-                //Arrange
-                string urlToTest = "https://api.github.com/users/ASCRees";
-                HttpHandler.InitializeClient();
+            //Arrange
+            string urlToTest = "https://api.github.com/users/ASCRees";
+            HttpHandler.InitializeClient();
 
-                //Act
-
-                Task<GitHubUserServiceModel> apiResponse = HttpHandler.HTTPCallClient<GitHubUserServiceModel>(urlToTest);
-                apiResponse.Wait();
-
-                //Assert
-                Assert.IsTrue(apiResponse.Result.id > 0, "Response was empty");
-            }
-            catch (Exception ex)
-            {
-            }
+            //Act
+            Task<GitHubUserServiceModel> apiResponse = HttpHandler.HttpCallClient<GitHubUserServiceModel>(urlToTest);
+            apiResponse.Wait();
+            
+            //Assert
+            Assert.IsTrue(apiResponse.Result.Id > 0, "Response was empty");
         }
     }
 }

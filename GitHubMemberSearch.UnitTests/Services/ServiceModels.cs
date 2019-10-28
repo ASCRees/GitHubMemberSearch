@@ -3,7 +3,6 @@ using GitHubMemberSearch.Services;
 using GitHubMemberSearch.Services.Models;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.UnitTests.Services
@@ -16,25 +15,25 @@ namespace GitHubMemberSearch.UnitTests.Services
         [Test]
         public void HttpCustomHandler_ReturnSample_ReposUrl()
         {
-            string _reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
+            string reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
             Mock<ICallGitHubService> chk = new Mock<ICallGitHubService>();
-            chk.Setup(x => x.CallUserAPI(It.IsAny<string>()))
-                .ReturnsAsync(new GitHubUserServiceModel { repos_url = _reposUrl });
+            chk.Setup(x => x.CallUserApi(It.IsAny<string>()))
+                .ReturnsAsync(new GitHubUserServiceModel { repos_url = reposUrl });
 
-            var outResult = chk.Object.CallUserAPI(_reposUrl).GetAwaiter().GetResult();
+            var outResult = chk.Object.CallUserApi(reposUrl).GetAwaiter().GetResult();
 
-            Assert.AreEqual(outResult.repos_url, _reposUrl);
+            Assert.AreEqual(outResult.repos_url, reposUrl);
         }
 
         [Test]
         public void HttpCustomHandler_Test_Exception_Thrown()
         {
-            string _reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
+            string reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
             Mock<ICallGitHubService> chk = new Mock<ICallGitHubService>();
-            chk.Setup(x => x.CallUserAPI(It.IsAny<string>()))
+            chk.Setup(x => x.CallUserApi(It.IsAny<string>()))
                 .Throws(new HttpResponseException("Not Found"));
 
-            Assert.Throws<HttpResponseException>(()=> chk.Object.CallUserAPI(_reposUrl).GetAwaiter().GetResult());
+            Assert.Throws<HttpResponseException>(()=> chk.Object.CallUserApi(reposUrl).GetAwaiter().GetResult());
         }
 
         [Test(Description = "Check that the user model holds the values")]
@@ -42,16 +41,18 @@ namespace GitHubMemberSearch.UnitTests.Services
         public void ServiceModels_UserModel_CheckItsPopulated()
         {
             //Arrange
-            GitHubUserServiceModel gitHubUserServiceModel = new GitHubUserServiceModel();
+            GitHubUserServiceModel gitHubUserServiceModel = new GitHubUserServiceModel
+            {
 
-            //Act
+                //Act
 
-            gitHubUserServiceModel.id = 1;
-            gitHubUserServiceModel.name = "Bob Smith";
-            gitHubUserServiceModel.login = "BSmith";
-            gitHubUserServiceModel.location = "Timbuktu";
-            gitHubUserServiceModel.starred_url = "http://api.github.com/users/bsmith/starred";
-            gitHubUserServiceModel.repos_url = "http://api.github.com/users/bsmith/repos";
+                Id = 1,
+                name = "Bob Smith",
+                login = "BSmith",
+                location = "Timbuktu",
+                starred_url = "http://api.github.com/users/bsmith/starred",
+                repos_url = "http://api.github.com/users/bsmith/repos"
+            };
 
             //Assert
             Assert.AreEqual(gitHubUserServiceModel.name, "Bob Smith");
@@ -62,14 +63,16 @@ namespace GitHubMemberSearch.UnitTests.Services
         public void ServiceModels_ReposItemModel_CheckItsPopulated()
         {
             //Arrange
-            GitHubUserReposServiceModelItem gitHubUserReposServiceModelItem = new GitHubUserReposServiceModelItem();
+            GitHubUserReposServiceModelItem gitHubUserReposServiceModelItem = new GitHubUserReposServiceModelItem
+            {
 
-            //Act
-            gitHubUserReposServiceModelItem.name = "ReposTest";
-            gitHubUserReposServiceModelItem.full_name = "Repository Test Item";
-            gitHubUserReposServiceModelItem.description = "Test I could add a repository item";
-            gitHubUserReposServiceModelItem.stargazers_count = 5;
-            gitHubUserReposServiceModelItem.html_url = "http://www.github.com/users/bsmith/ReposTest";
+                //Act
+                name = "ReposTest",
+                full_name = "Repository Test Item",
+                description = "Test I could add a repository item",
+                stargazers_count = 5,
+                html_url = "http://www.github.com/users/bsmith/ReposTest"
+            };
 
             //Assert
             Assert.AreEqual(gitHubUserReposServiceModelItem.name, "ReposTest");

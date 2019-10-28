@@ -19,8 +19,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.DependencyResolution
 {
-    using GitHubMemberSearch.Controllers;
-    using GitHubMemberSearch.Services;
+    using Controllers;
+    using Services;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 

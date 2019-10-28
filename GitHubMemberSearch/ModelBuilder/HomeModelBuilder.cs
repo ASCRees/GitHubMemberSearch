@@ -11,18 +11,18 @@ namespace GitHubMemberSearch.Controllers
     public class HomeModelBuilder : IHomeModelBuilder
     {
         public HomeController HomeControllerObj { get; set; }
-        public async Task<GitHubUserViewModel> BuildSearchViewModel(string UserNameSearch)
+        public async Task<GitHubUserViewModel> BuildSearchViewModel(string userNameSearch)
         {
             GitHubUserViewModel gitHubUserViewModel = new GitHubUserViewModel();
-            HomeController.log.Info($"Request for details of \"{UserNameSearch}\"");
-            string defaultURL = System.Configuration.ConfigurationManager.AppSettings["RootUrl"] +
+            HomeController.Log.Info($"Request for details of \"{userNameSearch}\"");
+            string defaultUrl = System.Configuration.ConfigurationManager.AppSettings["RootUrl"] +
                                 System.Configuration.ConfigurationManager.AppSettings["UsersUrl"];
-            if (!string.IsNullOrEmpty(UserNameSearch))
+            if (!string.IsNullOrEmpty(userNameSearch))
             {
                 try
                 {
                     GitHubUserServiceModel gitHubUserServiceModel =
-                        await HomeControllerObj._callGitHubService.CallUserAPI(string.Format(defaultURL, UserNameSearch));
+                        await HomeControllerObj.CallGitHubService.CallUserApi(string.Format(defaultUrl, userNameSearch));
                     if (gitHubUserServiceModel != null)
                     {
                         gitHubUserViewModel = Mapper.Map<GitHubUserViewModel>(gitHubUserServiceModel);
@@ -30,7 +30,7 @@ namespace GitHubMemberSearch.Controllers
                         if (gitHubUserViewModel.id > 0)
                         {
                             List<GitHubUserReposServiceModelItem> gitHubUserReposServiceModelItem =
-                                await HomeControllerObj._callGitHubService.CallUserReposAPI(gitHubUserViewModel.repos_url);
+                                await HomeControllerObj.CallGitHubService.CallUserReposApi(gitHubUserViewModel.repos_url);
                             if (gitHubUserReposServiceModelItem != null)
                             {
                                 if (gitHubUserReposServiceModelItem.Count > 0)
@@ -44,36 +44,36 @@ namespace GitHubMemberSearch.Controllers
                     }
                     else
                     {
-                        string noRecordsFound = $"No records found for user \"{UserNameSearch}\"";
-                        HomeController.log.Warn(noRecordsFound);
+                        string noRecordsFound = $"No records found for user \"{userNameSearch}\"";
+                        HomeController.Log.Warn(noRecordsFound);
                         gitHubUserViewModel.message = noRecordsFound;
                     }
                 }
                 catch (HttpResponseException ex)
                 {
-                    string noRecordsFound = $"No records found for user \"{UserNameSearch}\"";
-                    HomeController.log.Warn(noRecordsFound);
+                    string noRecordsFound = $"No records found for user \"{userNameSearch}\"";
+                    HomeController.Log.Warn(noRecordsFound);
                     gitHubUserViewModel.message = noRecordsFound;
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
 
             }
             return gitHubUserViewModel;
         }
 
-        internal static GitHubUserViewSearchModel GetUserViewSearchModel(string UserNameSearch)
+        internal static GitHubUserViewSearchModel GetUserViewSearchModel(string userNameSearch)
         {
             GitHubUserViewSearchModel gitHubUserViewSearchModel = new GitHubUserViewSearchModel();
-            if (string.IsNullOrWhiteSpace(UserNameSearch))
+            if (string.IsNullOrWhiteSpace(userNameSearch))
             {
                 gitHubUserViewSearchModel.UserNameSearch = string.Empty;
             }
             else
             {
-                gitHubUserViewSearchModel.UserNameSearch = UserNameSearch;
+                gitHubUserViewSearchModel.UserNameSearch = userNameSearch;
             }
 
             return gitHubUserViewSearchModel;

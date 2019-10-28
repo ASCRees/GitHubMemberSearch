@@ -1,47 +1,44 @@
 ﻿using GitHubMemberSearch.App_Start;
 using GitHubMemberSearch.Controllers;
 using GitHubMemberSearch.Models;
-using GitHubMemberSearch.Service.Helper;
 using GitHubMemberSearch.Services;
-using GitHubMemberSearch.Services.Models;
+using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Moq;
 
 namespace GitHubMemberSearch.UnitTests.Controllers
 {
     [TestFixture]
     public class HomeControllerTest : BaseServiceUnitTest
     {
-        private MockRepository mockRepository;
+        private MockRepository _mockRepository;
 
-        private Mock<ICallGitHubService> mockCallGitHubService;
-        private Mock<IHomeModelBuilder> mockHomeModelBuilder;
+        private Mock<ICallGitHubService> _mockCallGitHubService;
+        private Mock<IHomeModelBuilder> _mockHomeModelBuilder;
 
         [SetUp]
         public void SetUp()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Default);
+            this._mockRepository = new MockRepository(MockBehavior.Default);
 
-            this.mockCallGitHubService = this.mockRepository.Create<ICallGitHubService>();
-            this.mockHomeModelBuilder = this.mockRepository.Create<IHomeModelBuilder>();
+            this._mockCallGitHubService = this._mockRepository.Create<ICallGitHubService>();
+            this._mockHomeModelBuilder = this._mockRepository.Create<IHomeModelBuilder>();
             AutoMapperConfig.CreateMappings();
         }
 
         [TearDown]
         public void TearDown()
         {
-            this.mockRepository.VerifyAll();
+            this._mockRepository.VerifyAll();
         }
 
         private HomeController CreateHomeController()
         {
             return new HomeController(
-                this.mockCallGitHubService.Object,
-                this.mockHomeModelBuilder.Object);
+                this._mockCallGitHubService.Object,
+                this._mockHomeModelBuilder.Object);
         }
 
         [Test(Description = "Verify that the result return contains a value for a valid user name")]
@@ -111,11 +108,9 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         {
             // Arrange
             var homeController = this.CreateHomeController();
-            string UserNameSearch = null;
-
+ 
             // Act
-            var result = homeController.Index(
-                UserNameSearch);
+            var result = homeController.Index(string.Empty);
 
             // Assert
             Assert.IsTrue(result != null);
@@ -126,11 +121,9 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         {
             // Arrange
             var homeController = this.CreateHomeController();
-            string UserNameSearch = null;
 
             // Act
-            var result = await homeController.Search(
-                UserNameSearch);
+            var result = await homeController.Search(string.Empty);
 
             // Assert
             Assert.IsTrue(result!=null);
@@ -142,7 +135,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         public void ModelBuilder_CheckController_CheckSearchRedirectsToError(string userName)
         {
             //Arrange
-            this.mockHomeModelBuilder.Setup(x => x.BuildSearchViewModel(It.IsAny<string>()))
+            this._mockHomeModelBuilder.Setup(x => x.BuildSearchViewModel(It.IsAny<string>()))
                 .Throws(new ArgumentException("Mock Exception"));
 
             var controller = this.CreateHomeController();
@@ -153,7 +146,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             var viewResult = result.Result;
 
             //Assert
-            Assert.IsTrue(viewResult.GetType().Equals(typeof(System.Web.Mvc.RedirectResult)));
+            Assert.IsTrue(viewResult.GetType().Equals(typeof(RedirectResult)));
         }
 
         [Test(Description = "Verify that the model builder returns no records return")]
@@ -163,8 +156,10 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         {
             //Arrange
 
-            var builder = new HomeModelBuilder();
-            builder.HomeControllerObj = CreateHomeController();
+            var builder = new HomeModelBuilder
+            {
+                HomeControllerObj = CreateHomeController()
+            };
 
             //Act
             var builderResult = builder.BuildSearchViewModel(userName).GetAwaiter().GetResult();

@@ -21,12 +21,12 @@ namespace GitHubMemberSearch
             log4net.Config.XmlConfigurator.Configure();
         }
 
-        private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(MvcApplication));
 
         private void Application_Error(Object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError().GetBaseException();
-            log.Error("App_Error", ex);
+            Log.Error("App_Error", ex);
         }
     }
 }

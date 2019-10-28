@@ -23,10 +23,10 @@ namespace GitHubMemberSearch.UnitTests.Services
         {
             //Arrange
             ICallGitHubService callGitHubService = new CallGitHubService();
-            string userURL = string.Format(UsersUrl, userName);
+            string userUrl = string.Format(UsersUrl, userName);
 
             //Act
-            Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserAPI(userURL);
+            Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserApi(userUrl);
             apiResponse.Wait();
             //Assert
             Assert.IsNotEmpty(apiResponse.Result.name, "Response was empty");
@@ -41,10 +41,10 @@ namespace GitHubMemberSearch.UnitTests.Services
             {
                 //Arrange
                 CallGitHubService callGitHubService = new CallGitHubService();
-                string userURL = string.Format(UsersUrl, userName);
+                string userUrl = string.Format(UsersUrl, userName);
 
                 //Act
-                Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserAPI(userURL);
+                Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserApi(userUrl);
                 apiResponse.Wait();
             }
             catch (Exception ex)
@@ -61,13 +61,13 @@ namespace GitHubMemberSearch.UnitTests.Services
         {
             //Arrange
             CallGitHubService callGitHubService = new CallGitHubService();
-            string userURL = string.Format(UsersUrl, userName);
+            string userUrl = string.Format(UsersUrl, userName);
 
-            Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserAPI(userURL);
+            Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserApi(userUrl);
             apiResponse.Wait();
 
             //Act
-            Task<List<GitHubUserReposServiceModelItem>> apiReposResponse = callGitHubService.CallUserReposAPI(apiResponse.Result.repos_url);
+            Task<List<GitHubUserReposServiceModelItem>> apiReposResponse = callGitHubService.CallUserReposApi(apiResponse.Result.repos_url);
             apiReposResponse.Wait();
 
             //Assert
@@ -81,20 +81,19 @@ namespace GitHubMemberSearch.UnitTests.Services
         {
             //Arrange
             CallGitHubService callGitHubService = new CallGitHubService();
-            string userURL = string.Format(UsersUrl, userName);
 
-            string _reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
+            string reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
             Mock<ICallGitHubService> chk = new Mock<ICallGitHubService>();
-            chk.Setup(x => x.CallUserAPI(It.IsAny<string>()))
-                .ReturnsAsync(new GitHubUserServiceModel { repos_url = _reposUrl });
+            chk.Setup(x => x.CallUserApi(It.IsAny<string>()))
+                .ReturnsAsync(new GitHubUserServiceModel { repos_url = reposUrl });
 
-            var outResult = chk.Object.CallUserAPI(_reposUrl).GetAwaiter().GetResult();
+            var outResult = chk.Object.CallUserApi(reposUrl).GetAwaiter().GetResult();
 
             if (outResult != null)
             {
                 //Act
                 //Assert
-                Assert.Throws<HttpResponseException>(() => callGitHubService.CallUserReposAPI(outResult.repos_url).GetAwaiter().GetResult());
+                Assert.Throws<HttpResponseException>(() => callGitHubService.CallUserReposApi(outResult.repos_url).GetAwaiter().GetResult());
             }
             else
             {
@@ -110,11 +109,11 @@ namespace GitHubMemberSearch.UnitTests.Services
             //Arrange
             HttpHandler.ApiClient = null;
             ICallGitHubService callGitHubService = new CallGitHubService();
-            string _userURL = string.Format(UsersUrl, userName)+"/repos";
+            string userUrl = string.Format(UsersUrl, userName)+"/repos";
 
             //Act
             //Assert
-            Assert.IsNull(callGitHubService.CallUserReposAPI(_userURL).GetAwaiter().GetResult());
+            Assert.IsNull(callGitHubService.CallUserReposApi(userUrl).GetAwaiter().GetResult());
  
         }
     }

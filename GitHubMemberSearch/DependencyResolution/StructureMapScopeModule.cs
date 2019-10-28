@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.DependencyResolution
 {
-    using GitHubMemberSearch.App_Start;
+    using App_Start;
     using StructureMap.Web.Pipeline;
     using System.Web;
 

@@ -1,6 +1,4 @@
 ﻿using GitHubMemberSearch.Service.Exceptions;
-using GitHubMemberSearch.Service.Helper;
-using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -19,16 +17,12 @@ namespace GitHubMemberSearch.Service.Helper
             ApiClient.DefaultRequestHeaders.Add("User-Agent", "GitHub-User-Agent");
         }
 
-        public static async Task<T> HTTPCallClient<T>(string userURL)
+        public static async Task<T> HttpCallClient<T>(string userUrl)
         {
-            string returnval = string.Empty;
-
-            using (HttpResponseMessage response = HttpHandler.ApiClient.GetAsync(userURL).GetAwaiter().GetResult())
+            using (HttpResponseMessage response = HttpHandler.ApiClient.GetAsync(userUrl).GetAwaiter().GetResult())
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    returnval = response.Content.ReadAsStringAsync().Result;
-
                     T result = await response.Content.ReadAsAsync<T>();
 
                     return result;
