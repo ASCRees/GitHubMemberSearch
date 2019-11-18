@@ -132,6 +132,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         [Test(Description = "Verify that the model builder returns no records return")]
         [Category("HomeModelBuilder")]
         [TestCase("ASCREES222")]
+        [TestCase("ASCREES221")]
         public void ModelBuilder_CheckController_CheckSearchRedirectsToError(string userName)
         {
             // Arrange
