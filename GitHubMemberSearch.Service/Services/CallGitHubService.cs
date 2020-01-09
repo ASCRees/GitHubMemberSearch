@@ -1,8 +1,8 @@
-﻿using GitHubMemberSearch.Service.Helper;
-using GitHubMemberSearch.Services.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GitHubMemberSearch.Service.Helper;
+using GitHubMemberSearch.Services.Models;
 
 namespace GitHubMemberSearch.Services
 {
