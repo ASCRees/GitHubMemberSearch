@@ -1,10 +1,10 @@
-﻿using GitHubMemberSearch.App_Start;
-using log4net;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using GitHubMemberSearch.App_Start;
+using log4net;
 
 namespace GitHubMemberSearch
 {

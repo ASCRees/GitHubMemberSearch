@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubMemberSearch", "GitHubMemberSearch\GitHubMemberSearch.csproj", "{DC10C815-0DF5-4F5E-9BE8-6F89CC817505}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubMemberSearch.Service", "GitHubMemberSearch.Service\GitHubMemberSearch.Service.csproj", "{9CD70867-6BF4-427A-A574-721BD20377E3}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubMemberSearch.UnitTests", "GitHubMemberSearch.UnitTests\GitHubMemberSearch.UnitTests.csproj", "{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubMemberSearch.Service", "GitHubMemberSearch.Service\GitHubMemberSearch.Service.csproj", "{9CD70867-6BF4-427A-A574-721BD20377E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubMemberSearch.FunctionalTests", "GitHubMemberSearch.FunctionalTests\GitHubMemberSearch.FunctionalTests.csproj", "{54CD43FD-E59A-49AD-AD4A-17A44843FCF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +21,18 @@ Global
 		{DC10C815-0DF5-4F5E-9BE8-6F89CC817505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC10C815-0DF5-4F5E-9BE8-6F89CC817505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC10C815-0DF5-4F5E-9BE8-6F89CC817505}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CD70867-6BF4-427A-A574-721BD20377E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9CD70867-6BF4-427A-A574-721BD20377E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CD70867-6BF4-427A-A574-721BD20377E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CD70867-6BF4-427A-A574-721BD20377E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52BAB2E5-4CA9-4A4D-916F-1DDB1D31003A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54CD43FD-E59A-49AD-AD4A-17A44843FCF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54CD43FD-E59A-49AD-AD4A-17A44843FCF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54CD43FD-E59A-49AD-AD4A-17A44843FCF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54CD43FD-E59A-49AD-AD4A-17A44843FCF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
