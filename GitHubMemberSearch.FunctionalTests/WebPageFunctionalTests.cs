@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
 
 namespace GitMemberSearch.FunctionalTests
 {
