@@ -50,7 +50,13 @@ namespace GitMemberSearch.FunctionalTests
             Assert.IsTrue(NoRepositoryItems.Text.Contains("The user does not have any repository items"));
         }
 
-
+        [Test]
+        public void WebPage_EmptyUserName_Check_No_Repository_Items_Not_Shown_For_Valid_User()
+        {
+            SearchField.SendKeys("ascrees");
+            SearchButton.Click();
+            Assert.IsTrue(driver.FindElements(By.XPath("/html/body/div[2]/table[2]/tbody/tr/td")).Count == 0);
+        }
 
     }
 }
