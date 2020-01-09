@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using GitHubMemberSearch.App_Start;
@@ -10,6 +11,8 @@ using NUnit.Framework;
 
 namespace GitHubMemberSearch.UnitTests.Controllers
 {
+    [ExcludeFromCodeCoverage]
+
     [TestFixture]
     public class HomeControllerTest : BaseServiceUnitTest
     {
