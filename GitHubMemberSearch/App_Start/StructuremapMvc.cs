@@ -14,7 +14,6 @@
 // limitations under the License.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 using GitHubMemberSearch.App_Start;
 using System.Diagnostics.CodeAnalysis;
 using WebActivatorEx;

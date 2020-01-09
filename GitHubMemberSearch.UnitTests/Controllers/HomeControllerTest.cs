@@ -27,12 +27,6 @@ namespace GitHubMemberSearch.UnitTests.Controllers
             AutoMapperConfig.CreateMappings();
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            //this._mockRepository.VerifyAll();
-        }
-
         [Test(Description = "Verify that the result return contains a value for a valid user name")]
         [Category("HomeControllerTest")]
         [TestCase("robconery")]

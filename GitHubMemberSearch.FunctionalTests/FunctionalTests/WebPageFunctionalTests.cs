@@ -7,38 +7,50 @@ namespace GitMemberSearch.FunctionalTests
     [ExcludeFromCodeCoverage]
 
     [TestFixture]
-    public class WebPageFunctionalTests:BaseFunctionalTestClass
+    public class WebPageFunctionalTests:BaseFunctionalTests
     {
         [Test]
         public void WebPage_EmptyUserName_Check_Field_Error_Is_Shown()
         {
-            IWebElement searchField = driver.FindElement(By.Id("userName"));
-            IWebElement buttonField = driver.FindElement(By.Name("Search"));
-            searchField.SendKeys("");
-            buttonField.Click();
-            IWebElement errorField = driver.FindElement(By.Id("userName-error"));
-            Assert.IsNotNull(errorField);
+            SearchField.SendKeys("");
+            SearchButton.Click();
+            Assert.IsNotNull(ErrorLabel);
         }
 
         [Test]
         public void WebPage_EmptyUserName_Check_Field_Error_Is_NotShown()
         {
-            IWebElement searchField = driver.FindElement(By.Id("userName"));
-            IWebElement buttonField = driver.FindElement(By.Name("Search"));
-            searchField.SendKeys("arees");
-            buttonField.Click();
+            SearchField.SendKeys("ascrees");
+            SearchButton.Click();
             Assert.IsTrue(driver.FindElements(By.Id("userName-error")).Count == 0);
         }
 
         [Test]
         public void WebPage_EmptyUserName_Check_Search_Error_Is_Shown()
         {
-            IWebElement searchField = driver.FindElement(By.Id("userName"));
-            IWebElement buttonField = driver.FindElement(By.Name("Search"));
-            searchField.SendKeys("...");
-            buttonField.Click();
-            IWebElement searchError = driver.FindElement(By.XPath("//*[@id='userDetailsTable']/tbody/tr/td"));
-            Assert.IsTrue(searchError.Text.Contains("No records found for user"));
+            SearchField.SendKeys("...");
+            SearchButton.Click();
+            Assert.IsTrue(SearchError.Text.Contains("No records found for user"));
         }
+
+
+        [Test]
+        public void WebPage_EmptyUserName_Check_Field_Name_Is_Shown_for_Valid_User()
+        {
+            SearchField.SendKeys("ascrees");
+            SearchButton.Click();
+            Assert.IsTrue(NameField.Text.Contains("Name"));
+        }
+
+        [Test]
+        public void WebPage_EmptyUserName_Check_No_Repository_Items_Valid_User()
+        {
+            SearchField.SendKeys("speacock1970");
+            SearchButton.Click();
+            Assert.IsTrue(NoRepositoryItems.Text.Contains("The user does not have any repository items"));
+        }
+
+
+
     }
 }

@@ -1,13 +1,13 @@
-﻿using GitHubMemberSearch.Service.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+using GitHubMemberSearch.Service.Exceptions;
 using GitHubMemberSearch.Service.Helper;
 using GitHubMemberSearch.Services;
 using GitHubMemberSearch.Services.Models;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
 namespace GitHubMemberSearch.UnitTests.Services
 {

@@ -1,9 +1,9 @@
-﻿using GitHubMemberSearch.Service.Helper;
-using GitHubMemberSearch.Services.Models;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using GitHubMemberSearch.Service.Helper;
+using GitHubMemberSearch.Services.Models;
+using NUnit.Framework;
 
 namespace GitHubMemberSearch.UnitTests.Services
 {
@@ -36,7 +36,6 @@ namespace GitHubMemberSearch.UnitTests.Services
                 HttpHandler.InitializeClient();
 
                 // Act
-
                 Task<GitHubUserServiceModel> apiResponse = HttpHandler.HttpCallClient<GitHubUserServiceModel>(urlToTest);
                 apiResponse.Wait();
             }
