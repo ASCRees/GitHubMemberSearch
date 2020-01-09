@@ -62,8 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseClasses\BaseFunctionalTestClass.cs" />
-    <Compile Include="WebPageFunctionalTests.cs" />
+    <Compile Include="BaseFunctionalTestClass.cs" />
+    <Compile Include="FunctionalTests\WebPageFunctionalTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
