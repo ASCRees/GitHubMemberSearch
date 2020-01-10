@@ -114,7 +114,6 @@ namespace GitHubMemberSearch.UnitTests.Services
             // Act
             // Assert
             Assert.IsNull(callGitHubService.CallUserReposApi(userUrl).GetAwaiter().GetResult());
-
         }
     }
 }

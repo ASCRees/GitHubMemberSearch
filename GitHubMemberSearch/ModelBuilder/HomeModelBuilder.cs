@@ -1,9 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using GitHubMemberSearch.Models;
 using GitHubMemberSearch.Service.Exceptions;
 using GitHubMemberSearch.Services.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace GitHubMemberSearch.Controllers
 {
@@ -58,8 +58,8 @@ namespace GitHubMemberSearch.Controllers
                 {
                     throw;
                 }
-
             }
+
             return gitHubUserViewModel;
         }
 

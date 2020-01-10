@@ -19,12 +19,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GitHubMemberSearch.DependencyResolution
 {
+    using System;
+    using System.Web.Mvc;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
     using StructureMap.Pipeline;
     using StructureMap.TypeRules;
-    using System;
-    using System.Web.Mvc;
 
     [ExcludeFromCodeCoverage]
     public class ControllerConvention : IRegistrationConvention
