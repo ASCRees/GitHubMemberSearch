@@ -9,8 +9,8 @@ namespace GitHubMemberSearch.Controllers
 {
     public class HomeController : Controller
     {
-        internal readonly ICallGitHubService CallGitHubService;
         internal static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(HomeController));
+        internal readonly ICallGitHubService CallGitHubService;
         private readonly IHomeModelBuilder _homeModelBuilder;
 
         public HomeController(ICallGitHubService callGitHubService, IHomeModelBuilder homeModelBuilder)
@@ -49,5 +49,4 @@ namespace GitHubMemberSearch.Controllers
             }
         }
     }
-
 }
