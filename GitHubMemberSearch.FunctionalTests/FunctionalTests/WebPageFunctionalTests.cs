@@ -88,5 +88,17 @@ namespace GitMemberSearch.FunctionalTests
             Assert.IsTrue(!NoRepositoryItems.Text.Contains("The user does not have any repository items"));
         }
 
+        [Test]
+        public void WebPage_Display_Error_Page_For_Invalid_Request()
+        {
+            //Arrange
+            //Act
+            driver.Url = "http://localhost/GitSearch/Home/Search?id=1";
+
+
+            //Assert
+            Assert.IsTrue(ErrorPageText.Text.Contains("Error."));
+        }
+
     }
 }
