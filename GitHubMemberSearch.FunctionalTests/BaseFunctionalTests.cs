@@ -64,6 +64,14 @@ namespace GitMemberSearch.FunctionalTests
             }
         }
 
+        public IWebElement ErrorPageText
+        {
+            get
+            {
+                return driver.FindElement(By.XPath("/html/body/div[2]/hgroup/h1"));
+            }
+        }
+        
         [OneTimeSetUp]
         public void Open()
         {
