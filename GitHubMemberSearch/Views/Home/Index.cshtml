@@ -8,10 +8,13 @@
         <tr>
             <td>
                 Enter User Name
-                @Html.TextBoxFor(m => m.UserNameSearch, new { id = "userName" })
+                @Html.TextBoxFor(m => m.UserNameSearch, new { id = "userName",@onkeyup = "onchangeusernameevent(this);" })
                 @Html.ValidationMessageFor(m => m.UserNameSearch, null, new { @class = "field-validation-error", data_valmsg_for = "UserNameSearch" })
 
                 <input type="submit" name="Search" value="Search" />
+                <div class="userNameErrorDiv">
+                    
+                </div>
             </td>
         </tr>
     </table>

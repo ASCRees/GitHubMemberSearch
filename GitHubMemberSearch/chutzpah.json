@@ -1,0 +1,9 @@
+{
+		"Framework": "jasmine",
+		"References": [
+			{ "Path": "./Scripts/validate.input.js" }
+		],
+		"Tests": [
+			{ "Path": "./Scripts/Tests/validate.input.tests.js" }
+		]
+}
