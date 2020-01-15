@@ -71,7 +71,15 @@ namespace GitMemberSearch.FunctionalTests
                 return driver.FindElement(By.XPath("/html/body/div[2]/hgroup/h1"));
             }
         }
-        
+
+        public IWebElement BadUserNameInputMessage
+        {
+            get
+            {
+                return driver.FindElement(By.ClassName("userNameErrorDiv"));
+            }
+        }
+
         [OneTimeSetUp]
         public void Open()
         {

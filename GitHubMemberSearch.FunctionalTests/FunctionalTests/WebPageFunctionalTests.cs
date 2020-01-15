@@ -100,5 +100,17 @@ namespace GitMemberSearch.FunctionalTests
             Assert.IsTrue(ErrorPageText.Text.Contains("Error."));
         }
 
+        [Test]
+        public void WebPage_Display_Error_For_Long_UserName()
+        {
+            //Arrange
+            SearchField.SendKeys("abcdefghjkabcdefghjkabcdefghjkabcdefghjk");
+            //Act
+
+
+            //Assert
+            Assert.IsTrue(BadUserNameInputMessage.Text.Contains("Username can only be a max of 39 characters"));
+        }
+
     }
 }
