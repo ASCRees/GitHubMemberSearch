@@ -73,6 +73,7 @@
     <Compile Include="Exceptions\HttpResponseException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper\HttpCustomHandler.cs" />
+    <Compile Include="Interfaces\IHttpHandler.cs" />
     <Compile Include="Interfaces\ICallGitHubService.cs" />
     <Compile Include="Models\GitHubUserServiceModel.cs" />
     <Compile Include="Models\GitHubUserReposServiceModelItem.cs" />
@@ -83,6 +84,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />

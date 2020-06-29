@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using GitHubMemberSearch.Models;
-using GitHubMemberSearch.Services;
-
-namespace GitHubMemberSearch.Controllers
+﻿namespace GitHubMemberSearch.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using System.Web.Mvc;
+    using GitHubMemberSearch.Models;
+    using GitHubMemberSearch.Service.Interfaces;
+
     public class HomeController : Controller
     {
         internal static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(HomeController));

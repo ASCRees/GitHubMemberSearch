@@ -1,25 +1,28 @@
-﻿using GitHubMemberSearch.Service.Exceptions;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+﻿
 
 namespace GitHubMemberSearch.Service.Helper
 {
-    public static class HttpHandler
-    {
-        public static HttpClient ApiClient { get; set; }
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+    using GitHubMemberSearch.Service.Exceptions;
+    using GitHubMemberSearch.Service.Interfaces;
 
-        public static void InitializeClient()
+    public class HttpHandler : IHttpHandler
+    {
+        public HttpClient ApiClient { get; set; }
+
+        public void InitializeClient()
         {
-            ApiClient = HttpClientFactory.Create(new HttpCustomHandler());
-            ApiClient.DefaultRequestHeaders.Accept.Clear();
-            ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            ApiClient.DefaultRequestHeaders.Add("User-Agent", "GitHub-User-Agent");
+            this.ApiClient = HttpClientFactory.Create(new HttpCustomHandler());
+            this.ApiClient.DefaultRequestHeaders.Accept.Clear();
+            this.ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            this.ApiClient.DefaultRequestHeaders.Add("User-Agent", "GitHub-User-Agent");
         }
 
-        public static async Task<T> HttpCallClient<T>(string userUrl)
+        public async Task<T> HttpCallClient<T>(string userUrl)
         {
-            using (HttpResponseMessage response = HttpHandler.ApiClient.GetAsync(userUrl).GetAwaiter().GetResult())
+            using (HttpResponseMessage response = this.ApiClient.GetAsync(userUrl).GetAwaiter().GetResult())
             {
                 if (response.IsSuccessStatusCode)
                 {
