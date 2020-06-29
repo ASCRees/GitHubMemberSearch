@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using GitHubMemberSearch.Service.Exceptions;
 using GitHubMemberSearch.Service.Helper;
+using GitHubMemberSearch.Service.Interfaces;
 using GitHubMemberSearch.Services;
 using GitHubMemberSearch.Services.Models;
 using Moq;
@@ -16,21 +19,37 @@ namespace GitHubMemberSearch.UnitTests.Services
     [TestFixture]
     public class GitHubApiCallTest : BaseServiceUnitTest
     {
+
+        private MockRepository _mockRepository;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            _mockRepository = new MockRepository(MockBehavior.Default);
+            _mockHttpHandler = _mockRepository.Create<IHttpHandler>();
+        }
+
         [Test(Description = "Check that the call to the git hub api returns a result as a string")]
         [Category("GitHubAPI")]
         [TestCase("robconery")]
         public void GitHub_API_CheckAPI_CheckForValidUser(string userName)
         {
             // Arrange
-            ICallGitHubService callGitHubService = new CallGitHubService();
+            BuildMockHeader(userName);
+
+            ICallGitHubService callGitHubService = new CallGitHubService(this._mockHttpHandler.Object);
             string userUrl = string.Format(UsersUrl, userName);
 
             // Act
             Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserApi(userUrl);
+
             apiResponse.Wait();
+
             // Assert
             Assert.IsNotEmpty(apiResponse.Result.name, "Response was empty");
         }
+
+
 
         [Test(Description = "Check that the call to the git hub api returns a result as a string")]
         [Category("GitHubAPI")]
@@ -40,7 +59,10 @@ namespace GitHubMemberSearch.UnitTests.Services
             try
             {
                 // Arrange
-                CallGitHubService callGitHubService = new CallGitHubService();
+                _mockHttpHandler.Setup(c => c.HttpCallClient<GitHubUserServiceModel>(It.IsAny<string>())).ThrowsAsync(new HttpResponseException("Not Found"));
+
+                ICallGitHubService callGitHubService = new CallGitHubService(this._mockHttpHandler.Object);
+
                 string userUrl = string.Format(UsersUrl, userName);
 
                 // Act
@@ -60,7 +82,11 @@ namespace GitHubMemberSearch.UnitTests.Services
         public void GitHub_API_CheckAPI_CallReposURLWithResults(string userName)
         {
             // Arrange
-            CallGitHubService callGitHubService = new CallGitHubService();
+            BuildMockHeader(userName);
+            BuildMockReposLines();
+
+            ICallGitHubService callGitHubService = new CallGitHubService(this._mockHttpHandler.Object);
+
             string userUrl = string.Format(UsersUrl, userName);
 
             Task<GitHubUserServiceModel> apiResponse = callGitHubService.CallUserApi(userUrl);
@@ -74,32 +100,6 @@ namespace GitHubMemberSearch.UnitTests.Services
             Assert.IsTrue(apiReposResponse.Result.Count > 0, "Response was empty");
         }
 
-        [Test(Description = "Check that the call to the git hub api returns a result as a string")]
-        [Category("GitHubAPI")]
-        [TestCase("ASCRees2")]
-        public void GitHub_API_CheckAPI_CallReposURLWithNoResults(string userName)
-        {
-            // Arrange
-            CallGitHubService callGitHubService = new CallGitHubService();
-
-            string reposUrl = "https://github.com/ASCRees2/GitHubMemberSearch";
-            Mock<ICallGitHubService> chk = new Mock<ICallGitHubService>();
-            chk.Setup(x => x.CallUserApi(It.IsAny<string>()))
-                .ReturnsAsync(new GitHubUserServiceModel { repos_url = reposUrl });
-
-            var outResult = chk.Object.CallUserApi(reposUrl).GetAwaiter().GetResult();
-
-            if (outResult != null)
-            {
-                // Act
-                // Assert
-                Assert.Throws<HttpResponseException>(() => callGitHubService.CallUserReposApi(outResult.repos_url).GetAwaiter().GetResult());
-            }
-            else
-            {
-                Assert.IsTrue(outResult is null, "Response was empty");
-            }
-        }
 
         [Test(Description = "Check that the call to the git hub api returns null for a valid repos")]
         [Category("GitHubAPI")]
@@ -107,8 +107,8 @@ namespace GitHubMemberSearch.UnitTests.Services
         public void GitHub_API_CheckAPI_CallUserReposAPIURLWithNoRepositories(string userName)
         {
             // Arrange
-            HttpHandler.ApiClient = null;
-            ICallGitHubService callGitHubService = new CallGitHubService();
+            BuildMockReposNoLines();
+            ICallGitHubService callGitHubService = new CallGitHubService(this._mockHttpHandler.Object);
             string userUrl = string.Format(UsersUrl, userName) + "/repos";
 
             // Act

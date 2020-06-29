@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using GitHubMemberSearch.Service.Exceptions;
+using GitHubMemberSearch.Service.Interfaces;
 using GitHubMemberSearch.Services;
 using GitHubMemberSearch.Services.Models;
 using Moq;

@@ -1,22 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GitHubMemberSearch.Service.Helper;
-using GitHubMemberSearch.Services.Models;
-
-namespace GitHubMemberSearch.Services
+﻿namespace GitHubMemberSearch.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using GitHubMemberSearch.Service.Interfaces;
+    using GitHubMemberSearch.Services.Models;
+
     public class CallGitHubService : ICallGitHubService
     {
+        private IHttpHandler _httpHandler;
+
+        public CallGitHubService(IHttpHandler httpHandler)
+        {
+            _httpHandler = httpHandler;
+            SetApiClient();
+        }
+
         public async Task<GitHubUserServiceModel> CallUserApi(string userUrl)
         {
             try
             {
-                if (HttpHandler.ApiClient == null)
-                {
-                    HttpHandler.InitializeClient();
-                }
-                return HttpHandler.HttpCallClient<GitHubUserServiceModel>(userUrl).GetAwaiter().GetResult();
+                return _httpHandler.HttpCallClient<GitHubUserServiceModel>(userUrl).GetAwaiter().GetResult();
             }
             catch
             {
@@ -24,23 +28,38 @@ namespace GitHubMemberSearch.Services
             }
         }
 
+
+
         public async Task<List<GitHubUserReposServiceModelItem>> CallUserReposApi(string userUrl)
         {
-            if (HttpHandler.ApiClient == null)
+            SetApiClient();
+            try
             {
-                HttpHandler.InitializeClient();
-            }
+                List<GitHubUserReposServiceModelItem> reposItems = _httpHandler.HttpCallClient<List<GitHubUserReposServiceModelItem>>(userUrl).GetAwaiter().GetResult();
 
-            List<GitHubUserReposServiceModelItem> reposItems = HttpHandler.HttpCallClient<List<GitHubUserReposServiceModelItem>>(userUrl).GetAwaiter().GetResult();
-
-            if (reposItems.Count > 0)
-            {
-                return reposItems.OrderByDescending(c => c.stargazers_count).Take(5).ToList();
+                if (reposItems.Count > 0)
+                {
+                    return reposItems.OrderByDescending(c => c.stargazers_count).Take(5).ToList();
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (System.Exception)
             {
-                return null;
+
+                throw;
             }
         }
+
+        private void SetApiClient()
+        {
+            if (_httpHandler.ApiClient == null)
+            {
+                _httpHandler.InitializeClient();
+            }
+        }
+
     }
 }

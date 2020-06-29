@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GitHubMemberSearch.Services
+namespace GitHubMemberSearch.Service.Interfaces
 {
     public interface ICallGitHubService
     {
