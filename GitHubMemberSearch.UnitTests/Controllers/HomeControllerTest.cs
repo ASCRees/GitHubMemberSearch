@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using GitHubMemberSearch.App_Start;
 using GitHubMemberSearch.Controllers;
 using GitHubMemberSearch.Models;
+using GitHubMemberSearch.Service.Helper;
+using GitHubMemberSearch.Service.Interfaces;
 using GitHubMemberSearch.Services;
 using Moq;
 using NUnit.Framework;
@@ -24,26 +26,26 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         public void SetUp()
         {
             this._mockRepository = new MockRepository(MockBehavior.Default);
-
+            this._mockHttpHandler = this._mockRepository.Create<IHttpHandler>();
             this._mockCallGitHubService = this._mockRepository.Create<ICallGitHubService>();
             this._mockHomeModelBuilder = this._mockRepository.Create<IHomeModelBuilder>();
             AutoMapperConfig.CreateMappings();
         }
 
-        [Test(Description = "Verify that the result return contains a value for a valid user name")]
+        [Test(Description = "Verify that the result return contains result")]
         [Category("HomeControllerTest")]
         [TestCase("robconery")]
         public void Controller_CheckController_ValidateResultIsReturned(string userName)
         {
             // Arrange
-            var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
+            var controller = new HomeController(new CallGitHubService(_mockHttpHandler.Object), new HomeModelBuilder());
 
             // Act
             var result = controller.Search(userName);
             result.Wait();
 
             // Assert
-            Assert.NotNull(result);
+            Assert.NotNull(result.Result);
         }
 
         [Test(Description = "Verify that the model has an id for a valid user name")]
@@ -51,8 +53,12 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         [TestCase("robconery")]
         public void Controller_CheckController_ValidUserName(string userName)
         {
+
             // Arrange
-            var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
+            BuildMockHeader(userName);
+            BuildMockReposLines();
+
+            var controller = new HomeController(new CallGitHubService(_mockHttpHandler.Object), new HomeModelBuilder());
 
             // Act
             Task<ActionResult> result = controller.Search(userName);
@@ -70,7 +76,7 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         public void Controller_CheckController_InValidUserName(string userName)
         {
             // Arrange
-            var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
+            var controller = new HomeController(new CallGitHubService(_mockHttpHandler.Object), new HomeModelBuilder());
 
             // Act
             var result = controller.Search(userName);
@@ -88,7 +94,10 @@ namespace GitHubMemberSearch.UnitTests.Controllers
         public void Controller_CheckController_ReposItems(string userName)
         {
             // Arrange
-            var controller = new HomeController(new CallGitHubService(), new HomeModelBuilder());
+            BuildMockHeader(userName);
+            BuildMockReposLines();
+
+            var controller = new HomeController(new CallGitHubService(_mockHttpHandler.Object), new HomeModelBuilder());
 
             // Act
             var result = controller.Search(userName);

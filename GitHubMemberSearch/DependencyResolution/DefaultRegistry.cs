@@ -20,6 +20,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace GitHubMemberSearch.DependencyResolution
 {
     using Controllers;
+    using GitHubMemberSearch.Service.Helper;
+    using GitHubMemberSearch.Service.Interfaces;
     using Services;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
@@ -38,6 +40,7 @@ namespace GitHubMemberSearch.DependencyResolution
                     scan.WithDefaultConventions();
                     scan.With(new ControllerConvention());
                 });
+            For<IHttpHandler>().Use<HttpHandler>();
             For<ICallGitHubService>().Use<CallGitHubService>();
             For<IHomeModelBuilder>().Use<HomeModelBuilder>();
         }
